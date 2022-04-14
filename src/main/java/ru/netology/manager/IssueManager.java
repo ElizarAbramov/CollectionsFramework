@@ -4,27 +4,35 @@ import ru.netology.domain.Issue;
 import ru.netology.domain.Label;
 import ru.netology.repository.Repository;
 
-import java.util.List;
 import java.util.Set;
 
 public class IssueManager {
-    private Repository repository;
+    private final Repository repository;
 
     public IssueManager(Repository repository) {
         this.repository = repository;
     }
 
-    public void plus(Issue issue) {
-        repository.add(issue);
+    public void plus(Issue item) {
+        repository.add(item);
     }
 
-    public List<Issue> filterByAuthor(String author) {
-        repository.filterByA(author);
-        return null;
+    public void filterByAuthor(String author) {
+        repository.filterByAut(author);
+
     }
 
-    public List<Issue> filterByLabel(Set<Label> labels) {
+    public void filterByLabel(Set<Label> labels) {
         repository.filterByL(labels);
-        return null;
     }
+
+    public void filterByAssignee(String assignee) {
+        repository.filterByAssi(assignee);
+    }
+
+    public void removeIssue(Issue item) {
+        repository.delete(item);
+    }
+
 }
+

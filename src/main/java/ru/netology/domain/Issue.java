@@ -2,7 +2,6 @@ package ru.netology.domain;
 
 import java.util.Set;
 
-
 public class Issue {
     private int id;
     private boolean isOpened;

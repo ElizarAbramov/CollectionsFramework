@@ -7,4 +7,5 @@ public class Label {
     public Label(String name) {
         this.name = name;
     }
+
 }
