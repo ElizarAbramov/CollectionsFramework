@@ -28,7 +28,8 @@ class IssueManagerTest {
     public void shouldShowOnlyOpenedIssues() {
         issueManager.plus(first);
         issueManager.plus(second);
-        List<Issue> actual = repository.opened();
+        issueManager.plus(third);
+        List<Issue> actual = issueManager.findByOpened(true);
         List<Issue> expected = Arrays.asList(first, second);
         assertEquals(actual, expected);
     }
@@ -36,7 +37,7 @@ class IssueManagerTest {
     @Test
     public void shouldShowOnlyOpenedIssuesWithEmpty() {
         issueManager.plus(third);
-        List<Issue> actual = repository.opened();
+        List<Issue> actual = issueManager.findByOpened(true);
         List<Issue> expected = List.of();
         assertEquals(actual, expected);
     }
@@ -45,7 +46,7 @@ class IssueManagerTest {
     public void shouldShowOnlyOneOpenedIssue() {
         issueManager.plus(first);
         issueManager.plus(third);
-        List<Issue> actual = repository.opened();
+        List<Issue> actual = issueManager.findByOpened(true);
         List<Issue> expected = List.of(first);
         assertEquals(actual, expected);
     }
@@ -56,7 +57,7 @@ class IssueManagerTest {
         repository.add(first);
         repository.add(third);
 
-        List<Issue> actual = repository.closed();
+        List<Issue> actual = issueManager.findByClosed(false);
         List<Issue> expected = List.of(third);
         assertEquals(actual, expected);
     }
@@ -66,7 +67,7 @@ class IssueManagerTest {
         repository.add(first);
         repository.add(second);
 
-        List<Issue> actual = repository.closed();
+        List<Issue> actual = issueManager.findByClosed(false);
         List<Issue> expected = List.of();
         assertEquals(actual, expected);
     }
@@ -78,7 +79,7 @@ class IssueManagerTest {
         repository.add(third);
         repository.add(fourth);
 
-        List<Issue> actual = repository.closed();
+        List<Issue> actual = issueManager.findByClosed(false);
         List<Issue> expected = Arrays.asList(third, fourth);
         assertEquals(actual, expected);
     }
@@ -87,10 +88,8 @@ class IssueManagerTest {
     public void shouldFilterIssuesByAuthorEmpty() {
         issueManager.plus(first);
         issueManager.plus(second);
-        issueManager.filterByAuthor("");
 
-
-        List<Issue> actual = repository.findAll();
+        List<Issue> actual = issueManager.findByAuthor("");
         List<Issue> expected = Arrays.asList(first, second);
         assertEquals(actual, expected);
     }
@@ -99,10 +98,8 @@ class IssueManagerTest {
     public void shouldFilterIssuesByAuthor() {
         issueManager.plus(first);
         issueManager.plus(second);
-        issueManager.filterByAuthor("kukich");
 
-
-        List<Issue> actual = repository.findAll();
+        List<Issue> actual = issueManager.findByAuthor("kukich");
         List<Issue> expected = Arrays.asList(first, second);
         assertEquals(actual, expected);
     }
@@ -112,10 +109,8 @@ class IssueManagerTest {
         issueManager.plus(first);
         issueManager.plus(second);
         issueManager.plus(fourth);
-        issueManager.filterByAuthor("Leonov");
 
-
-        List<Issue> actual = repository.findAll();
+        List<Issue> actual = issueManager.findByAuthor("Leonov");
         List<Issue> expected = List.of(fourth);
         assertEquals(actual, expected);
     }
@@ -125,10 +120,10 @@ class IssueManagerTest {
     public void shouldFilterIssuesByLabels() {
         issueManager.plus(first);
         issueManager.plus(second);
-        issueManager.filterByLabel(new HashSet<>(List.of(secondd)));
 
-        List<Issue> actual = repository.findAll();
-        List<Issue> expected = Arrays.asList(first, second);
+
+        List<Issue> actual = issueManager.findByLabel(new HashSet<>(Arrays.asList(firstt, secondd, thirdd)));
+        List<Issue> expected = List.of(first);
         assertEquals(actual, expected);
     }
 
@@ -136,9 +131,9 @@ class IssueManagerTest {
     public void shouldFilterIssuesByLabelsWithEmpty() {
         issueManager.plus(first);
         issueManager.plus(second);
-        issueManager.filterByLabel(new HashSet<>(List.of()));
 
-        List<Issue> actual = repository.findAll();
+
+        List<Issue> actual = issueManager.findByLabel(new HashSet<>(List.of()));
         List<Issue> expected = Arrays.asList(first, second);
         assertEquals(actual, expected);
     }
@@ -148,9 +143,9 @@ class IssueManagerTest {
         issueManager.plus(first);
         issueManager.plus(second);
         issueManager.plus(fourth);
-        issueManager.filterByLabel(new HashSet<>(List.of(fourthh)));
 
-        List<Issue> actual = repository.findAll();
+
+        List<Issue> actual = issueManager.findByLabel(new HashSet<>(List.of(fourthh)));
         List<Issue> expected = List.of(fourth);
         assertEquals(actual, expected);
     }
@@ -159,9 +154,9 @@ class IssueManagerTest {
     public void shouldFilterIssuesByAssigneeEmpty() {
         issueManager.plus(first);
         issueManager.plus(second);
-        issueManager.filterByAssignee("Goga");
 
-        List<Issue> actual = repository.findAll();
+
+        List<Issue> actual = issueManager.findByAssignee("Goga");
         List<Issue> expected = List.of();
         assertEquals(actual, expected);
     }
@@ -170,9 +165,8 @@ class IssueManagerTest {
     public void shouldFilterIssuesByAssigneeWithOne() {
         issueManager.plus(first);
         issueManager.plus(second);
-        issueManager.filterByAssignee("Kirito");
 
-        List<Issue> actual = repository.findAll();
+        List<Issue> actual = issueManager.findByAssignee("Kirito");
         List<Issue> expected = List.of(first);
         assertEquals(actual, expected);
     }
@@ -183,9 +177,9 @@ class IssueManagerTest {
         issueManager.plus(first);
         issueManager.plus(second);
         issueManager.plus(third);
-        issueManager.filterByAssignee("Kirito");
 
-        List<Issue> actual = repository.findAll();
+
+        List<Issue> actual = issueManager.findByAssignee("Kirito");
         List<Issue> expected = Arrays.asList(first, third);
         assertEquals(actual, expected);
     }
